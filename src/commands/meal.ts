@@ -1,16 +1,57 @@
 import { nanoid } from 'nanoid';
-import { readDayLog, writeDayLog, getMealById, readFoods } from '../lib/storage.ts';
+import { readDayLog, writeDayLog, getMealById, readFoods, readGoals } from '../lib/storage.ts';
 import { print, err, sumIngredients } from '../lib/format.ts';
 import {
   upsertVector, deleteVector, searchVectors,
   mealVecId, ingredientVecId,
 } from '../lib/vectors.ts';
-import type { Meal, Ingredient, Unit } from '../lib/types.ts';
-import { WEIGHT_UNITS, VOLUME_UNITS, TO_BASE } from '../lib/types.ts';
+import type { Meal, Ingredient, Unit, Goals } from '../lib/types.ts';
+import { WEIGHT_UNITS, VOLUME_UNITS, TO_BASE, GOAL_DIRECTION, NUTRIENT_KEYS } from '../lib/types.ts';
 
 type Args = Record<string, string | boolean | undefined>;
 
 const NUTRIENT_FLAGS = ['calories_kcal', 'protein_g', 'carbs_g', 'fiber_g', 'sugar_g', 'fat_g', 'sat_fat_g'] as const;
+
+function buildImpact(date: string, added: Partial<Ingredient>): Record<string, unknown> {
+  const log    = readDayLog(date);
+  const goals  = readGoals();
+  const allIng = log.flatMap(m => m.ingredients);
+  const totals = sumIngredients(allIng) as Goals;
+
+  const impact: Record<string, unknown> = {};
+
+  for (const key of NUTRIENT_KEYS) {
+    const delta   = (added as Record<string, number | undefined>)[key];
+    const total   = totals[key] ?? 0;
+    const goal    = goals[key];
+    const type    = GOAL_DIRECTION[key];
+
+    // Only include nutrients that were part of this ingredient or have a goal
+    if (delta === undefined && goal === undefined) continue;
+
+    const entry: Record<string, unknown> = {};
+    if (delta !== undefined) entry['added'] = delta;
+    entry['total'] = total;
+
+    if (goal !== undefined) {
+      // remaining: positive = still have headroom (max) or still need (min)
+      //            negative = exceeded limit (max=bad) or hit target (min=good)
+      const remaining = Math.round((goal - total) * 100) / 100;
+      entry['goal']      = goal;
+      entry['remaining'] = remaining;
+      entry['pct']       = Math.round((total / goal) * 1000) / 10; // one decimal, e.g. 43.2
+      if (type === 'max') {
+        entry['status'] = remaining < 0 ? 'over' : 'ok';
+      } else {
+        entry['status'] = remaining > 0 ? 'under' : 'ok';
+      }
+    }
+
+    impact[key] = entry;
+  }
+
+  return impact;
+}
 
 function extractNutrients(args: Args): Partial<Ingredient> {
   const out: Partial<Ingredient> = {};
@@ -197,6 +238,7 @@ async function ingredientAdd(mealId: string | undefined, args: Args): Promise<vo
 
   const result: Record<string, unknown> = { index };
   if (matchedFood) result['matched'] = matchedFood;
+  result['impact'] = buildImpact(date, ingredient);
   print(result);
 }
 
@@ -228,7 +270,7 @@ async function ingredientUpdate(mealId: string | undefined, indexStr: string | u
     { type: 'ingredient', mealId, index, date },
   );
 
-  print({ index, ...meal.ingredients[index] });
+  print({ index, ...meal.ingredients[index], impact: buildImpact(date, meal.ingredients[index]) });
 }
 
 async function ingredientDelete(mealId: string | undefined, indexStr: string | undefined): Promise<void> {

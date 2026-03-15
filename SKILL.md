@@ -65,6 +65,18 @@ Supported units — WEIGHT: `g` `kg` `oz` `lb` · VOLUME: `ml` `L` `fl_oz` `cup`
 
 Log what was eaten each day. `--date` and `--time` are always required for `meal add`. Nutrition totals are computed from ingredients at read time, never stored.
 
+### Ingredient impact feedback
+
+Every `meal ingredient add` and `meal ingredient update` returns an `impact` block showing, per nutrient: how much this ingredient contributed (`added`), the running daily `total`, `goal`, `remaining` headroom/deficit, `pct` of goal consumed (100 = goal met), and `status` (`ok` / `under` / `over`).
+
+**Always interpret this and give the user explicit, opinionated feedback.** For example:
+- "Great choice — chicken pushes your protein to 15% of goal with only 6.6% of calories used."
+- "Heads up: adding this brings saturated fat to 94% of your daily limit."
+- "You're now over your calorie goal for the day (112%)."
+- "Protein is still well under target (15%) — consider a protein-rich addition."
+
+Point out both positive wins and concerning overages. Be specific with the numbers. Don't just echo the YAML — synthesise it into a sentence or two of actual nutritional coaching.
+
 ```bash
 # Create a meal
 nutrition-claw meal add --name "Lunch" --date 2026-03-15 --time 13:00
