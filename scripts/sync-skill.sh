@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
-# Copies SKILL.md to the openclaw workspace so the agent always has the latest version.
+# Syncs the full skill folder to the openclaw workspace (excluding node_modules, .git, etc.)
 set -euo pipefail
 
-DEST="$HOME/.openclaw/workspace/skills/nutrition/SKILL.md"
-SRC="$(cd "$(dirname "$0")/.." && pwd)/SKILL.md"
+SRC="$(cd "$(dirname "$0")/.." && pwd)"
+DEST="$HOME/.openclaw/workspace/skills/nutrition"
 
-cp "$SRC" "$DEST"
-echo "Synced SKILL.md → $DEST"
+mkdir -p "$DEST"
+
+rsync -a --delete \
+  --exclude='node_modules/' \
+  --exclude='.git/' \
+  --exclude='.embeddings.cache.json' \
+  --exclude='bun.lockb' \
+  --exclude='*.tgz' \
+  "$SRC/" "$DEST/"
+
+echo "Synced $SRC → $DEST"
