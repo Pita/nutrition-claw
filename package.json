@@ -1,6 +1,6 @@
 {
   "name": "@pita/nutrition-claw",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Local-first nutrition tracking CLI for agents and humans",
   "license": "MIT",
   "author": "Peter 'Pita' Martischka <petermartischka@gmail.com>",
