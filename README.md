@@ -1,6 +1,6 @@
 # nutrition-claw
 
-A fully local, agent-friendly nutrition tracking CLI built with [Bun](https://bun.sh) and TypeScript.
+A fully local, agent-friendly nutrition tracking CLI built for [openclaw](https://openclaw.ai) with [Bun](https://bun.sh) and TypeScript.
 
 Track daily meals and ingredients, manage a personal food library, set nutrition goals, and search your history — all without sending a single byte to the cloud.
 
