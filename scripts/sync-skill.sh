@@ -7,7 +7,7 @@ DEST="$HOME/.openclaw/workspace/skills/nutrition-claw"
 
 mkdir -p "$DEST"
 
-rsync -a --delete \
+rsync -a --delete --delete-excluded \
   --exclude='node_modules/' \
   --exclude='.git/' \
   --exclude='.embeddings.cache.json' \
