@@ -13,7 +13,15 @@ cd <skill-folder>
 npm install
 ```
 
-**2. Make the CLI available**
+**2. Build**
+
+The `dist/` folder ships pre-built, but run this to recompile from source if needed (requires [Bun](https://bun.sh)):
+
+```bash
+npm run build
+```
+
+**3. Make the CLI available**
 
 ```bash
 npm link
