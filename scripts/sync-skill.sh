@@ -13,6 +13,7 @@ rsync -a --delete \
   --exclude='.embeddings.cache.json' \
   --exclude='bun.lockb' \
   --exclude='*.tgz' \
+  --exclude='scripts/' \
   "$SRC/" "$DEST/"
 
 echo "Synced $SRC → $DEST"
