@@ -7,7 +7,7 @@
   "homepage": "https://github.com/Pita/nutrition-claw#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Pita/nutrition-claw.git"
+    "url": "git+https://github.com/Pita/nutrition-claw.git"
   },
   "bugs": {
     "url": "https://github.com/Pita/nutrition-claw/issues"
@@ -32,7 +32,7 @@
   },
   "type": "module",
   "bin": {
-    "nutrition-claw": "./bin/nutrition-claw"
+    "nutrition-claw": "bin/nutrition-claw"
   },
   "files": [
     "bin/",

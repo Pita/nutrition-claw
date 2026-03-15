@@ -2,6 +2,8 @@
 
 A fully local nutrition tracking CLI. Run `nutrition-claw --help` for the complete command reference.
 
+Install: `npm install -g @pita/nutrition-claw --registry=https://npm.pkg.github.com`
+
 ## Overview
 
 All data (meals, foods, goals) is stored in `~/.nutrition-claw/` as plain JSON files. Semantic search uses a local MiniLM model — nothing ever leaves your machine. No API keys, no network required (model downloads once on first search, then cached).

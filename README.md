@@ -15,8 +15,17 @@ Track daily meals and ingredients, manage a personal food library, set nutrition
 
 ## Installation
 
+This package is published to [GitHub Packages](https://github.com/Pita/nutrition-claw/pkgs/npm/nutrition-claw). Install globally:
+
 ```bash
-npm install -g nutrition-claw
+npm install -g @pita/nutrition-claw --registry=https://npm.pkg.github.com
+```
+
+Or configure npm once to always resolve the `@pita` scope from GitHub Packages:
+
+```bash
+echo "@pita:registry=https://npm.pkg.github.com" >> ~/.npmrc
+npm install -g @pita/nutrition-claw
 ```
 
 Then configure your goals (interactive wizard):
