@@ -3,12 +3,42 @@
   "version": "1.0.0",
   "description": "Local-first nutrition tracking CLI for agents and humans",
   "license": "MIT",
+  "author": "Peter 'Pita' Martischka <petermartischka@gmail.com>",
+  "homepage": "https://github.com/pita/nutrition-claw#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pita/nutrition-claw.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pita/nutrition-claw/issues"
+  },
+  "keywords": [
+    "nutrition",
+    "calories",
+    "meal",
+    "tracker",
+    "cli",
+    "agent",
+    "openclaw",
+    "health",
+    "diet",
+    "macros"
+  ],
+  "engines": {
+    "bun": ">=1.0.0"
+  },
   "type": "module",
   "bin": {
     "nutrition-claw": "./bin/nutrition-claw"
   },
+  "files": [
+    "bin/",
+    "src/",
+    "SKILL.md"
+  ],
   "scripts": {
-    "start": "bun src/index.ts"
+    "start": "bun src/index.ts",
+    "prepublishOnly": "bun --version && echo 'Ready to publish'"
   },
   "dependencies": {
     "@inquirer/prompts": "^7.5.2",
