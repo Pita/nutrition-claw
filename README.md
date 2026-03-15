@@ -72,7 +72,9 @@ The MiniLM embedding model is downloaded once on first search and cached locally
 
 ## Requirements
 
-- [Bun](https://bun.sh) ≥ 1.0
+- Node.js ≥ 18
+
+> **Contributing / building from source:** [Bun](https://bun.sh) ≥ 1.0 is used to compile the TypeScript source (`npm run build`). It is not needed to run the installed package.
 
 ## License
 

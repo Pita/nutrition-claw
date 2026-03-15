@@ -1,3 +1,4 @@
 node_modules/
 bun.lockb
 .embeddings.cache.json
+dist/

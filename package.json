@@ -25,7 +25,7 @@
     "macros"
   ],
   "engines": {
-    "bun": ">=1.0.0"
+    "node": ">=18.0.0"
   },
   "type": "module",
   "bin": {
@@ -33,12 +33,13 @@
   },
   "files": [
     "bin/",
-    "src/",
+    "dist/",
     "SKILL.md"
   ],
   "scripts": {
+    "build": "bun build ./src/index.ts --outfile ./dist/index.js --target node --packages external",
     "start": "bun src/index.ts",
-    "prepublishOnly": "bun --version && echo 'Ready to publish'"
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@inquirer/prompts": "^7.5.2",
