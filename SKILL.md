@@ -2,26 +2,34 @@
 
 A fully local, offline-first nutrition tracking CLI built for [openclaw](https://openclaw.ai). Track daily meals and ingredients, manage a personal food library, set nutrition goals, and search your history — all without sending data anywhere.
 
-## Installation
+## Setup
 
-Published to GitHub Packages. Install globally:
+The skill folder ships with pre-built JS in `dist/` but **not** `node_modules` — native dependencies (ONNX runtime for local embeddings) must be installed locally.
 
-```bash
-npm install -g @pita/nutrition-claw --registry=https://npm.pkg.github.com
-```
-
-Or configure npm once so the `@pita` scope always resolves from GitHub Packages:
+**1. Install dependencies**
 
 ```bash
-echo "@pita:registry=https://npm.pkg.github.com" >> ~/.npmrc
-npm install -g @pita/nutrition-claw
+cd <skill-folder>
+npm install
 ```
 
-Then run the setup wizard once to set nutrition goals:
+**2. Make the CLI available**
+
+```bash
+npm link
+```
+
+This creates a global `nutrition-claw` symlink so you can call it from anywhere.
+
+**3. First-time goal setup**
 
 ```bash
 nutrition-claw configure
 ```
+
+Run the interactive wizard (no flags) or pass flags directly — see the `configure` command below.
+
+> To unlink later: `npm unlink -g @pita/nutrition-claw`
 
 ## Overview
 
