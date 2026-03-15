@@ -89,43 +89,26 @@ nutrition-claw goals delete                        # remove all
 
 ### `food` — reusable food library
 
-The food library is **only for packaged/labelled products** (things with a nutrition label). Always store values per **100g or 100ml** as printed on the label — `--per-amount` defaults to 100 so you can omit it. Values are scaled automatically when added to a meal.
-
-Intended workflow: user shares a photo of a nutrition label → extract values per 100g/100ml → `food add`. Next time they eat it, use `food search` to find it and `meal ingredient add --food` to auto-scale.
-
-**Do NOT use the food library for:**
-- Home-cooked meals or restaurant dishes (log those as manual meal ingredients instead)
-- Single-serving estimates for non-packaged foods
+Store nutrition data per reference amount (e.g. per 100g, per 100ml, per 1 tbsp). Values are scaled automatically when added to a meal. Intended workflow: user shares a photo of a nutrition label → extract values → `food add`. Next time they eat it, use `food search` to find it and `meal ingredient add --food` to auto-scale.
 
 ```bash
-# Per 100g (default — --per-amount and --per-unit can be omitted)
-nutrition-claw food add --name "Staropramen Lager" \
-  --calories-kcal 43 --protein-g 0.4 --carbs-g 3.6 --fat-g 0
+nutrition-claw food add --name "chicken breast" --per-amount 100 --per-unit g \
+  --calories-kcal 165 --protein-g 31 --fat-g 3.6
 
-# Explicit per 100ml (same as default but verbose)
 nutrition-claw food add --name "whole milk" --per-amount 100 --per-unit ml \
   --calories-kcal 61 --protein-g 3.2 --fat-g 3.3
 
+nutrition-claw food add --name "olive oil" --per-amount 1 --per-unit tbsp \
+  --calories-kcal 119 --fat-g 13.5
+
 nutrition-claw food list
-nutrition-claw food get "Staropramen Lager"   # exact name
-nutrition-claw food search "beer"             # semantic — no exact name needed
-nutrition-claw food update "whole milk" --protein-g 3.4
-nutrition-claw food delete "whole milk"
+nutrition-claw food get "chicken breast"      # exact name
+nutrition-claw food search "chicken"          # semantic — no exact name needed
+nutrition-claw food update "chicken breast" --protein-g 32
+nutrition-claw food delete "chicken breast"
 ```
 
 Supported units — WEIGHT: `g` `kg` `oz` `lb` · VOLUME: `ml` `L` `fl_oz` `cup` `tbsp` `tsp`
-
-#### Nutritional education on `food add`
-
-Every `food add` returns an `education` array alongside the stored entry. Each element is a plain-English insight about the food relative to the user's goals (protein density, calorie density, saturated fat, sugar, fiber, healthy fat ratio). This field is **only present the first time** a food is added — subsequent `food add` or `food update` calls for the same name omit it entirely, so the user is never lectured twice.
-
-**Always surface education insights conversationally** — don't just list them verbatim. Example:
-- "Worth knowing: this is pretty calorie-dense at 320 kcal/100ml, so a standard 500ml pour is already ~160 kcal."
-- "Good news — it's mostly unsaturated fat, so it's the healthier kind."
-
-If the `education` field is absent (food already seen before), say nothing extra about its nutrition profile. If it's an empty array, the food has no notable highlights relative to the current goals — skip the education comment.
-
-Education history is stored in `~/.nutrition-claw/education.txt` — a plain text file, one food name per line, capped at 20 lines. When full, the oldest entry is dropped (FIFO rotation), so foods cycle back into education eligibility over time. This keeps the file tiny and avoids permanent suppression.
 
 ---
 
@@ -175,26 +158,6 @@ Every `meal ingredient add` and `meal ingredient update` returns an `impact` blo
 - "Protein is still well under target (15%) — consider a protein-rich addition."
 
 Point out both wins and overages. Be specific with numbers. Synthesise into 1–2 sentences of nutritional coaching — don't just echo the YAML.
-
-#### Educational nutrition insights (agent only)
-
-When logging ingredients, you may occasionally share a brief educational insight about a food's nutritional properties — e.g. that salmon is rich in omega-3, or that white rice spikes blood sugar faster than brown rice. These insights should feel natural, not lecture-y.
-
-**To avoid repeating the same insight constantly**, track what has been shared in `~/.openclaw/workspace/memory/nutrition-insights.json`:
-
-```json
-{
-  "salmon omega-3": "2026-03-15",
-  "white rice glycemic": "2026-03-10"
-}
-```
-
-Rules:
-- Before sharing an insight, check if a matching key already exists in that file and was shared **within the last 7 days**. If so, skip it.
-- After sharing an insight, write (or update) the key with today's ISO date (`YYYY-MM-DD`).
-- Entries older than 7 days are considered expired — you may share the insight again and update the date.
-- Keep keys short and descriptive (food + topic). The file is read and written directly; create it if it doesn't exist.
-- Don't share more than one insight per ingredient addition — keep it light.
 
 ---
 
