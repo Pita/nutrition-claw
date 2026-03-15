@@ -1,6 +1,6 @@
 {
   "name": "@pita/nutrition-claw",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Local-first nutrition tracking CLI for agents and humans",
   "license": "MIT",
   "author": "Peter 'Pita' Martischka <petermartischka@gmail.com>",
@@ -43,7 +43,7 @@
     "build": "bun build ./src/index.ts --outfile ./dist/index.js --target node --packages external",
     "start": "bun src/index.ts",
     "prepublishOnly": "npm run build",
-    "clawhub:publish": "npm run build && ./scripts/sync-skill.sh && clawhub publish ~/.openclaw/workspace/skills/nutrition-claw"
+    "clawhub:publish": "npm run build && ./scripts/sync-skill.sh && clawhub publish ~/.openclaw/workspace/skills/nutrition-claw --version $npm_package_version"
   },
   "dependencies": {
     "@inquirer/prompts": "^7.5.2",
