@@ -1,16 +1,19 @@
 {
-  "name": "nutrition-claw",
+  "name": "@pita/nutrition-claw",
   "version": "1.0.0",
   "description": "Local-first nutrition tracking CLI for agents and humans",
   "license": "MIT",
   "author": "Peter 'Pita' Martischka <petermartischka@gmail.com>",
-  "homepage": "https://github.com/pita/nutrition-claw#readme",
+  "homepage": "https://github.com/Pita/nutrition-claw#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pita/nutrition-claw.git"
+    "url": "https://github.com/Pita/nutrition-claw.git"
   },
   "bugs": {
-    "url": "https://github.com/pita/nutrition-claw/issues"
+    "url": "https://github.com/Pita/nutrition-claw/issues"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [
     "nutrition",
