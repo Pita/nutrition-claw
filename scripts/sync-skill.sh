@@ -3,7 +3,7 @@
 set -euo pipefail
 
 SRC="$(cd "$(dirname "$0")/.." && pwd)"
-DEST="$HOME/.openclaw/workspace/skills/nutrition"
+DEST="$HOME/.openclaw/workspace/skills/nutrition-claw"
 
 mkdir -p "$DEST"
 

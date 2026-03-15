@@ -43,7 +43,7 @@
     "build": "bun build ./src/index.ts --outfile ./dist/index.js --target node --packages external",
     "start": "bun src/index.ts",
     "prepublishOnly": "npm run build",
-    "clawhub:publish": "npm run build && ./scripts/sync-skill.sh && clawhub publish ~/.openclaw/workspace/skills/nutrition"
+    "clawhub:publish": "npm run build && ./scripts/sync-skill.sh && clawhub publish ~/.openclaw/workspace/skills/nutrition-claw"
   },
   "dependencies": {
     "@inquirer/prompts": "^7.5.2",
